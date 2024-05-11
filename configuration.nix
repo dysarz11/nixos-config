@@ -31,12 +31,15 @@
   i18n.defaultLocale = "en_CA.UTF-8";
 
   # Configure keymap in X11
+  # Add window manager
+  # Add amd driver
   services.xserver = {
     layout = "us";
     xkbVariant = "";
 
     enable = true;
     windowManager.i3.enable = true;
+    videoDrivers = ["amdgpu"];
   }; 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -45,6 +48,13 @@
     description = "Justin Dysarz";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
+  };
+
+  #enable OpenGL
+  hardware.opengl = {
+     enable = true;
+     driSupport = true;
+     driSupport32Bit = true;
   };
 
   # Allow unfree packages
@@ -68,9 +78,18 @@
      lua
      erlang
      rustc
-     redshift
-     vpnc
+     tor
+     tor-browser
+     libreoffice-qt
+     hunspell
+     hunspellDicts.uk_UA
+     mangohud
+     protonup
   ];
+  
+  programs.steam.enable = true;
+  programs.steam.gamescopeSession.enable = true;
+  programs.gamemode.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
