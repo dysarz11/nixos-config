@@ -85,6 +85,8 @@
      hunspellDicts.uk_UA
      mangohud
      protonup
+     godot_4
+     unetbootin
   ];
   
   programs.steam.enable = true;
