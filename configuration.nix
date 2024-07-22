@@ -25,81 +25,156 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "America/Swift_Current";
+  time.timeZone = "America/Denver";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_CA.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_US.UTF-8";
+    LC_IDENTIFICATION = "en_US.UTF-8";
+    LC_MEASUREMENT = "en_US.UTF-8";
+    LC_MONETARY = "en_US.UTF-8";
+    LC_NAME = "en_US.UTF-8";
+    LC_NUMERIC = "en_US.UTF-8";
+    LC_PAPER = "en_US.UTF-8";
+    LC_TELEPHONE = "en_US.UTF-8";
+    LC_TIME = "en_US.UTF-8";
+  };
 
   # Configure keymap in X11
-  # Add window manager
-  # Add amd driver
   services.xserver = {
     layout = "us";
     xkbVariant = "";
+  };
 
+  sound.enable = true;
+  security.rtkit.enable = true;
+  
+  services.pipewire = {
     enable = true;
-    windowManager.i3.enable = true;
-    videoDrivers = ["amdgpu"];
-  }; 
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.justin = {
     isNormalUser = true;
-    description = "Justin Dysarz";
+    description = "Justin";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
 
-  #enable OpenGL
-  hardware.opengl = {
-     enable = true;
-     driSupport = true;
-     driSupport32Bit = true;
-  };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-     firefox
-     neovim
-     neofetch
-     vscode
-     ghc
-     gcc
-     git
-     alacritty
-     zulu
-     python3
-     lua
-     erlang
-     rustc
-     tor
-     tor-browser
-     libreoffice-qt
-     hunspell
-     hunspellDicts.uk_UA
-     mangohud
-     protonup
-     godot_4
-     unetbootin
+    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+    gcc
+    ghc
+    gh
+    ranger
+    waybar
+    # eww # waybar alt
+    # For waybar
+    (waybar.overrideAttrs (oldAttrs: {
+      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ]; 
+        })
+    )
+
+    dunst
+    libnotify
+
+    # wallpaper
+    # swww
+
+    hyprpaper #swww alt
+
+    kitty
+    rofi-wayland
+    chromium
+    git
+    libreoffice
+    vscodium
+    emacs
+    lua
+    vul
+    kjv
+    libGLU
+    SDL
+    SDL2
+    monero-gui
+    monero-cli
+    neofetch
+    networkmanagerapplet
+    texliveFull
+    latex2html
+    openra
+    openarena
+    ventoy-full
+    angband
+    rssguard
+    rss2email
+    exfat
+    exfatprogs
+    rofi-vpn
+    blueberry
+    rofi-bluetooth
+    nmap
+    openvpn
+    proxychains
+    wireshark
+    tor
+    tor-browser
+    lbry
+    gtk3
+    sweet
+    gdb
+    metasploit
+    armitage
+    hashcat
+    gobuster
+    sqlmap
+    zap
+    xbase
+    hackrf
   ];
-  
-  programs.steam.enable = true;
-  programs.steam.gamescopeSession.enable = true;
-  programs.gamemode.enable = true;
+
+  programs.neovim.enable = true;
+  programs.neovim.defaultEditor = true;
+
+  # Enable Hyprland
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
+  environment.sessionVariables = {
+    # for cursor visibility
+    WLR_NO_HARDWARE_CURSORS = "1";
+
+    # make electron apps use wayland
+    NIXOS_OZONE_WL = "1";
+  };
+
+  hardware = {
+    opengl.enable = true;
+
+    nvidia.modesetting.enable = true;
+  };
+
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+   programs.mtr.enable = true;
+   programs.gnupg.agent = {
+     enable = true;
+     enableSSHSupport = true;
+   };
 
   # List services that you want to enable:
 
@@ -118,6 +193,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }
