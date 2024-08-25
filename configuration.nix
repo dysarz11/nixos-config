@@ -46,7 +46,8 @@
     enable = true;
     package = pkgs.jdk21;
   };
-  
+ 
+  users.defaultUserShell = pkgs.nushell;
 
   services.xserver.videoDrivers = ["nvidia"];
 
@@ -127,11 +128,30 @@
     neovim
     lshw
     wget
+    libgcc
     gcc
+    freeglut
+    plib
     ghc
     gh
     ranger
     waybar
+    nsxiv
+    dwl
+    somebar
+
+    # a functional shell
+    nushellFull
+    nushellPlugins.net
+    nushellPlugins.query
+    nufmt
+    nu_scripts
+
+    # the sukless terminal
+    st
+    # for lazyvim
+    kitty
+    sc-im
     # eww # waybar alt
     # For waybar
     (waybar.overrideAttrs (oldAttrs: {
@@ -144,7 +164,6 @@
     # wallpaper
     hyprpaper #swww alt
 
-    kitty
     pulseaudio
     rofi-wayland
     git
@@ -218,7 +237,22 @@
     ripunzip
     javaPackages.openjfx21
     libGL
-    texliveTeTeX
+    texliveFull
+    texlivePackages.biblatex-apa
+    texlivePackages.biblatex
+    texlivePackages.biblatex-ext
+    texlivePackages.biblatex-mla
+    latex2html
+    biber
+    dhex
+    ida-free
+    ghidra
+    eclipses.eclipse-java
+    nmrpflash
+    mesa
+    glm
+    meson
+    neo-cowsay
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -231,8 +265,17 @@
 
   #programs.steam.gamescopeSession.enable = true;
 
-  programs.neovim.enable = true;
-  programs.neovim.defaultEditor = true;
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
+  
+  environment.variables.EDITOR = "nvim";
+
+  programs.neovim = {
+    viAlias = true;
+    vimAlias = true;
+  };
 
   # Enable Hyprland
   programs.hyprland = {
